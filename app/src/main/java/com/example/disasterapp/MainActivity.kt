@@ -2,6 +2,7 @@ package com.example.disasterapp
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.SystemBarStyle
@@ -11,9 +12,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.disasterapp.databinding.ActivityMainBinding
-import com.google.android.material.color.MaterialColors
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,23 +21,20 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Ikon status bar (jam, baterai) berwarna putih di atas latar ungu
         enableEdgeToEdge(statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT))
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Latar window = ungu (terlihat di area status bar), isi aplikasi = warna surface
-        val colorPrimary = MaterialColors.getColor(
-            binding.root, androidx.appcompat.R.attr.colorPrimary
-        )
-        val colorSurface = MaterialColors.getColor(
-            binding.root, com.google.android.material.R.attr.colorSurface
-        )
+        val colorPrimary = Color.parseColor("#6750A4")
+
+        val typedValue = TypedValue()
+        theme.resolveAttribute(android.R.attr.colorBackground, typedValue, true)
+        val colorSurface = typedValue.data
+
         window.decorView.setBackgroundColor(colorPrimary)
         binding.root.setBackgroundColor(colorSurface)
 
-        // Isi aplikasi dimulai di bawah status bar; padding 16dp dari modul tetap dipakai
         val basePadding = (16 * resources.displayMetrics.density).toInt()
         ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
             val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
@@ -63,13 +59,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         with(binding) {
-            // linearlayoutmanager
-            // rvDisaster.apply {
-            //     adapter = adapterDisaster
-            //     layoutManager = LinearLayoutManager(this@MainActivity)
-            // }
 
-            // gridlayoutmanager
             rvDisaster.apply {
                 adapter = adapterDisaster
                 layoutManager = GridLayoutManager(this@MainActivity, 2)
