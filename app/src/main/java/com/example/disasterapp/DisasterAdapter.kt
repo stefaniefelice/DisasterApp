@@ -19,12 +19,7 @@ class DisasterAdapter(
             with(binding) {
                 txtDisasterName.text = data.nameDisaster
                 txtDisasterType.text = data.disasterType
-
-                // Latihan: ikon berganti sesuai tipe bencana
-                imgDisaster.setImageResource(
-                    if (data.disasterType == "Natural") R.drawable.ic_natural
-                    else R.drawable.ic_man_made
-                )
+                imgDisaster.setImageResource(data.imageRes)
 
                 itemView.setOnClickListener {
                     onClickDisaster(data)
